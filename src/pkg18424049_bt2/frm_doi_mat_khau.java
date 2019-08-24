@@ -165,7 +165,7 @@ public class frm_doi_mat_khau extends javax.swing.JDialog {
                 JOptionPane.WARNING_MESSAGE, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 
         if (flag == 0) {
-            String msg = new NguoiDungDAO().ChangePassword(curUser.getId(), mkmoi, 0);
+            String msg = new NguoiDungDAO().ChangePassword(curUser.getMaNguoiDung(), mkmoi, 0);
 
             if (msg.equals("Thành công!")) {
                 Object[] options1 = {"OK"};

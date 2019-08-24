@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import pojo.NguoiDung;
 import util.HibernateUtil;
 
@@ -40,19 +41,18 @@ public class NguoiDungDAO {
         return user.get(0);
     }
 
-    public String ChangePassword(int id, String mkmoi, int firstTime) {
+    public String ChangePassword(String maNguoiDung, String mkmoi, int firstTime) {
         String msg = "";
         Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Query query = session.createSQLQuery(
-                    "CALL ChangePassword(:p_id, :p_mk_moi,:p_first_time)")
-                    .setParameter("p_id", id)
-                    .setParameter("p_mk_moi", mkmoi)
-                    .setParameter("p_first_time", firstTime);
-            List result = query.list();
-            if (result != null) {
-                msg = result.get(0).toString();
-            }
+            transaction = session.beginTransaction();
+            NguoiDung user = getByCode(maNguoiDung);
+            user.setMatKhau(mkmoi);
+            user.setDangNhapLanDau(0);
+            session.update(user);
+            transaction.commit();
+            msg = "Thành công!";
         } catch (HibernateException ex) {
             System.err.println(ex);
         } finally {
