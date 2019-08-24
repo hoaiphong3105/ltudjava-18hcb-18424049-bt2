@@ -12,6 +12,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import pojo.NguoiDung;
 import util.HibernateUtil;
+import dao.NguoiDungDAO;
+import util.Helper;
 
 /**
  *
@@ -119,21 +121,40 @@ public class frm_dang_nhap extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-        List<NguoiDung> ds = null;
-        Session session = HibernateUtil.getSessionFactory()
-                .openSession();
-        try {
-            String hql = "select sv from NguoiDung sv";
-            Query query = session.createQuery(hql);
-            ds = query.list();
-        } catch (HibernateException ex) {
-            //Log the exception
-            System.err.println(ex);
-        } finally {
-            session.close();
+        if (txtTenDangNhap.getText().isEmpty() == true
+                || String.valueOf(txtMatKhau.getPassword()).isEmpty() == true) {
+            JOptionPane.showMessageDialog(null, "Đăng nhập thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        
-        int i =0;
+        NguoiDung user = null;
+        user = new NguoiDungDAO().getByCode(txtTenDangNhap.getText());
+        if (user == null) {
+            JOptionPane.showMessageDialog(null, "Đăng nhập thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (user.getMaNguoiDung().equals(txtTenDangNhap.getText())
+                && user.getMatKhau().equals(String.valueOf(txtMatKhau.getPassword()))) {
+            //set curUser
+            Helper.setCurrentUser(user);
+            //giáo vụ
+            if (user.getRole() == 1) {
+
+            } else {
+                //sinh viên
+                if (user.getDangNhapLanDau() == 1) {
+                    // doi mat khau
+                    frm_doi_mat_khau frm = new frm_doi_mat_khau(null, true);
+                    frm.setTitle("Quản Lý Sinh Viên");
+                    frm.setLocationRelativeTo(null); // to center the JFrame
+                    frm.setVisible(true);
+                }
+
+            }
+            JOptionPane.showMessageDialog(null, "Đăng nhập thành công!", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Đăng nhập thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     /**
