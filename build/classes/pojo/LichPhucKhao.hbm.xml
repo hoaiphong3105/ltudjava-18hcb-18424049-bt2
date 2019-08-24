@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 24, 2019 4:40:58 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojo.LichPhucKhao" table="lich_phuc_khao" catalog="sinhvien" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="maMonHoc" type="string">
+            <column name="ma_mon_hoc" length="45" not-null="true" />
+        </property>
+        <property name="tgBatDau" type="date">
+            <column name="tg_bat_dau" length="10" not-null="true" />
+        </property>
+        <property name="tgKetThuc" type="date">
+            <column name="tg_ket_thuc" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 24, 2019 4:40:58 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojo.NguoiDung" table="nguoi_dung" catalog="sinhvien" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="hoTen" type="string">
+            <column name="ho_ten" length="100" not-null="true" />
+        </property>
+        <property name="maNguoiDung" type="string">
+            <column name="ma_nguoi_dung" length="20" />
+        </property>
+        <property name="gioiTinh" type="string">
+            <column name="gioi_tinh" length="4" />
+        </property>
+        <property name="cmnd" type="string">
+            <column name="cmnd" length="20" />
+        </property>
+        <property name="role" type="int">
+            <column name="role" not-null="true" />
+        </property>
+        <property name="dangNhapLanDau" type="java.lang.Integer">
+            <column name="dang_nhap_lan_dau" />
+        </property>
+        <property name="maLop" type="string">
+            <column name="ma_lop" length="10" not-null="true" />
+        </property>
+        <property name="moTa" type="string">
+            <column name="mo_ta" length="500" />
+        </property>
+        <property name="matKhau" type="string">
+            <column name="mat_khau" length="50" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

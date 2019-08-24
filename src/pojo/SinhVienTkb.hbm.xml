@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 24, 2019 4:40:58 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojo.SinhVienTkb" table="sinh_vien_tkb" catalog="sinhvien" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="maSinhVien" type="int">
+            <column name="ma_sinh_vien" not-null="true" />
+        </property>
+        <property name="maLopTkb" type="string">
+            <column name="ma_lop_tkb" length="45" not-null="true" />
+        </property>
+        <property name="maMonHoc" type="string">
+            <column name="ma_mon_hoc" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

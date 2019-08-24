@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 24, 2019 4:40:58 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojo.Diem" table="diem" catalog="sinhvien" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="maSinhVien" type="string">
+            <column name="ma_sinh_vien" length="45" not-null="true" />
+        </property>
+        <property name="maLopTkb" type="string">
+            <column name="ma_lop_tkb" length="45" not-null="true" />
+        </property>
+        <property name="hoTen" type="string">
+            <column name="ho_ten" length="45" />
+        </property>
+        <property name="diemGk" type="java.lang.Float">
+            <column name="diem_gk" precision="12" scale="0" />
+        </property>
+        <property name="diemCk" type="java.lang.Float">
+            <column name="diem_ck" precision="12" scale="0" />
+        </property>
+        <property name="deimKhac" type="java.lang.Float">
+            <column name="deim_khac" precision="12" scale="0" />
+        </property>
+        <property name="diemTong" type="java.lang.Float">
+            <column name="diem_tong" precision="12" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>
