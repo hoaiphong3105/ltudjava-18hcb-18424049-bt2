@@ -6,31 +6,36 @@
 package pkg18424049_bt2;
 
 import dao.NguoiDungDAO;
+import dao.SinhVienTKBDAO;
+import dao.ThoiKhoaBieuDAO;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import pojo.NguoiDung;
+import pojo.SinhVienTkb;
+import pojo.ThoiKhoaBieu;
 import util.FileHelper;
 
 /**
  *
  * @author hoaip
  */
-public class frm_import_sv extends javax.swing.JDialog {
+public class frm_import_tkb extends javax.swing.JDialog {
 
     /**
-     * Creates new form frm_import_sv
+     * Creates new form frm_import_tkb
      */
     DefaultTableModel modelSt;
-    public frm_import_sv(java.awt.Frame parent, boolean modal) {
+
+    public frm_import_tkb(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
-        //init danh sách sinh viên
-        String[] columns = {"Mã Sinh Viên", "Họ Tên", "Giới Tính", "CMND"};
+        String[] columns = new String[]{"Mã môn học", "Tên môn học", "Phòng học"};
         modelSt = new DefaultTableModel(null, columns);
         tbSudents.setModel(modelSt);
     }
@@ -94,6 +99,9 @@ public class frm_import_sv extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnImport, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,11 +112,7 @@ public class frm_import_sv extends javax.swing.JDialog {
                             .addComponent(cbClass, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnChooseFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnImport, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)))
+                        .addComponent(btnChooseFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -125,13 +129,12 @@ public class frm_import_sv extends javax.swing.JDialog {
                     .addComponent(cbClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnImport)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnImport))
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Import danh sách sinh viên");
+        jLabel1.setText("Import thời khóa biểu");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -152,7 +155,7 @@ public class frm_import_sv extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -165,7 +168,7 @@ public class frm_import_sv extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -183,7 +186,7 @@ public class frm_import_sv extends javax.swing.JDialog {
             File f = frmFileChoose.getSelectedFile();
             txtPath.setText(f.getAbsolutePath());
 
-            String[] columns = new String[]{"MSSV", "Họ tên", "Giới tính", "CMND"};
+            String[] columns = new String[]{"Mã môn học", "Tên môn học", "Phòng học"};
             DefaultTableModel modelSt = new DefaultTableModel(null, columns);
             // load danh sach
             String path = txtPath.getText().trim();
@@ -211,18 +214,12 @@ public class frm_import_sv extends javax.swing.JDialog {
         ArrayList<String[]> lines = FileHelper.ReadFile(path);
         for (int i = 0; i < lines.size(); i++) {
             String[] strs = lines.get(i);
-            NguoiDung st = new NguoiDung();
-            st.setMaNguoiDung(strs[0]);
-            st.setHoTen(strs[1]);
-            st.setMaLop(cbClass.getSelectedItem().toString());
-            st.setGioiTinh(strs[2]);
-            st.setMatKhau(strs[0]);
-            st.setDangNhapLanDau(1);
-            st.setRole(0);
-            st.setMoTa("sinh vien");
-            st.setCmnd(strs[3]);
-
-            String msg = new NguoiDungDAO().createStudent(st);
+            ThoiKhoaBieu tkb = new ThoiKhoaBieu();
+            tkb.setMaMon(strs[0]);
+            tkb.setTenMonHoc(strs[1]);
+            tkb.setMaLop(cbClass.getSelectedItem().toString());
+            tkb.setPhongHoc(strs[2]);
+            String msg = new ThoiKhoaBieuDAO().createTKB(tkb);
             sb.append(strs[0]).append(" - ").append(msg).append("\r\n");
             if (msg.equals("Thêm thành công!")) {
                 importSuccess.add(strs);
@@ -231,13 +228,29 @@ public class frm_import_sv extends javax.swing.JDialog {
 
         // load lại ds import thành công
         modelSt.getDataVector().removeAllElements();
-        String[] columns = new String[]{"MSSV", "Họ tên", "Giới tính", "CMND"};
+        String[] columns = new String[]{"Mã môn học", "Tên môn học", "Phòng học"};
         DefaultTableModel modelSt = new DefaultTableModel(null, columns);
         for (int i = 0; i < importSuccess.size(); i++) {
             modelSt.addRow(importSuccess.get(i));
         }
         tbSudents.setModel(modelSt);
+
+        //thêm các môn học success vào tkb_sv
+        String maLop = cbClass.getSelectedItem().toString();
+        //lấy danh sách lớp
+        List<NguoiDung> students = new NguoiDungDAO().getByClass(maLop);
         
+        // duyet tkb
+        for (int j = 0; j < importSuccess.size(); j++) {
+            for (int i = 0; i < students.size(); i++) {
+                String[] strs = importSuccess.get(j);
+                SinhVienTkb svtkb = new SinhVienTkb();
+                svtkb.setMaLopTkb(maLop);
+                svtkb.setMaMonHoc(strs[0]);
+                svtkb.setMaSinhVien(students.get(i).getMaNguoiDung());
+                String msg = new SinhVienTKBDAO().createSVTKB(svtkb);
+            }
+        }
         //msg
         JOptionPane.showMessageDialog(null, sb.toString(), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnImportActionPerformed
@@ -259,20 +272,20 @@ public class frm_import_sv extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frm_import_sv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frm_import_tkb.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frm_import_sv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frm_import_tkb.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frm_import_sv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frm_import_tkb.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frm_import_sv.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frm_import_tkb.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                frm_import_sv dialog = new frm_import_sv(new javax.swing.JFrame(), true);
+                frm_import_tkb dialog = new frm_import_tkb(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -10,7 +10,7 @@ public class SinhVienTkb  implements java.io.Serializable {
 
 
      private int id;
-     private int maSinhVien;
+     private String maSinhVien;
      private String maLopTkb;
      private String maMonHoc;
 
@@ -18,12 +18,12 @@ public class SinhVienTkb  implements java.io.Serializable {
     }
 
 	
-    public SinhVienTkb(int id, int maSinhVien, String maLopTkb) {
+    public SinhVienTkb(int id, String maSinhVien, String maLopTkb) {
         this.id = id;
         this.maSinhVien = maSinhVien;
         this.maLopTkb = maLopTkb;
     }
-    public SinhVienTkb(int id, int maSinhVien, String maLopTkb, String maMonHoc) {
+    public SinhVienTkb(int id, String maSinhVien, String maLopTkb, String maMonHoc) {
        this.id = id;
        this.maSinhVien = maSinhVien;
        this.maLopTkb = maLopTkb;
@@ -37,11 +37,11 @@ public class SinhVienTkb  implements java.io.Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    public int getMaSinhVien() {
+    public String getMaSinhVien() {
         return this.maSinhVien;
     }
     
-    public void setMaSinhVien(int maSinhVien) {
+    public void setMaSinhVien(String maSinhVien) {
         this.maSinhVien = maSinhVien;
     }
     public String getMaLopTkb() {

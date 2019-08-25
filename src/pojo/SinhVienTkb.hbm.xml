@@ -8,8 +8,8 @@
             <column name="id" />
             <generator class="assigned" />
         </id>
-        <property name="maSinhVien" type="int">
-            <column name="ma_sinh_vien" not-null="true" />
+        <property name="maSinhVien" type="string">
+            <column name="ma_sinh_vien" length="45" not-null="true" />
         </property>
         <property name="maLopTkb" type="string">
             <column name="ma_lop_tkb" length="45" not-null="true" />

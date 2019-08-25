@@ -84,4 +84,25 @@ public class NguoiDungDAO {
         return msg;
     }
 
+    public List<NguoiDung> getByClass(String maLop) {
+        List<NguoiDung> user = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            String hql = "select sv from NguoiDung sv where sv.maLop =:malop";
+            Query query = session.createQuery(hql)
+                    .setParameter("malop", maLop);
+            user = query.list();
+
+        } catch (HibernateException ex) {
+            System.err.println(ex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        if (user == null || user.isEmpty()) {
+            return null;
+        }
+        return user;
+    }
 }
