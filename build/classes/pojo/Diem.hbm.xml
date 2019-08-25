@@ -29,5 +29,11 @@
         <property name="diemTong" type="java.lang.Float">
             <column name="diem_tong" precision="12" scale="0" />
         </property>
+        <property name="maMh" type="string">
+            <column name="ma_mh" length="45" not-null="true" />
+        </property>
+         <property name="ketQua" type="string">
+            <column name="ket_qua" length="45" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -17,6 +17,24 @@ public class Diem  implements java.io.Serializable {
      private Float diemCk;
      private Float deimKhac;
      private Float diemTong;
+     private String maMh;
+     private String ketQua;
+
+    public String getKetQua() {
+        return ketQua;
+    }
+
+    public void setKetQua(String ketQua) {
+        this.ketQua = ketQua;
+    }
+
+    public String getMaMh() {
+        return maMh;
+    }
+
+    public void setMaMh(String maMh) {
+        this.maMh = maMh;
+    }
 
     public Diem() {
     }
