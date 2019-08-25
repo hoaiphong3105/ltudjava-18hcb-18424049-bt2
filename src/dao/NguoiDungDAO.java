@@ -60,4 +60,28 @@ public class NguoiDungDAO {
         }
         return msg;
     }
+
+    public String createStudent(NguoiDung student) {
+        String msg = "";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        if (new NguoiDungDAO().getByCode(student.getMaNguoiDung()) != null) {
+            return "Sinh viên đã tồn tại";
+        }
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(student);
+            transaction.commit();
+            msg = "Thêm thành công!";
+        } catch (HibernateException ex) {
+            //Log the exception
+            transaction.rollback();
+            System.err.println(ex);
+            msg = "Thêm thất bại!";
+        } finally {
+            session.close();
+        }
+        return msg;
+    }
+
 }
