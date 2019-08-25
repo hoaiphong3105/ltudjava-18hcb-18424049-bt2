@@ -109,4 +109,26 @@ public class DiemDAO {
         }
         return user;
     }
+
+    public List<Diem> getbyIdAndClass(String maSV, String mamh) {
+        List<Diem> user = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            String hql = "SELect sv "
+                    + "FROM Diem as sv "
+                    + "where sv.maSinhVien =:maSV and sv.maMh =:mamh";
+            Query query = session.createQuery(hql)
+                    .setParameter("maSV", maSV)
+                    .setParameter("mamh", mamh);
+            user = query.list();
+
+        } catch (HibernateException ex) {
+            System.err.println(ex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        return user;
+    }
 }

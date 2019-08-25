@@ -139,7 +139,10 @@ public class frm_dang_nhap extends javax.swing.JDialog {
             Helper.setCurrentUser(user);
             //giáo vụ
             if (user.getRole() == 1) {
-
+                frm_Main frm = new frm_Main(null, true);
+                frm.setTitle("18424049 - Quản lý sinh viên");
+                frm.setLocationRelativeTo(null); // to center the JFrame
+                frm.setVisible(true);
             } else {
                 //sinh viên
                 if (user.getDangNhapLanDau() == 1) {
@@ -149,9 +152,11 @@ public class frm_dang_nhap extends javax.swing.JDialog {
                     frm.setLocationRelativeTo(null); // to center the JFrame
                     frm.setVisible(true);
                 }
-
+                frm_Main frm = new frm_Main(null, true);
+                frm.setTitle("18424049 - Quản lý sinh viên");
+                frm.setLocationRelativeTo(null); // to center the JFrame
+                frm.setVisible(true);
             }
-            JOptionPane.showMessageDialog(null, "Đăng nhập thành công!", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         JOptionPane.showMessageDialog(null, "Đăng nhập thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
