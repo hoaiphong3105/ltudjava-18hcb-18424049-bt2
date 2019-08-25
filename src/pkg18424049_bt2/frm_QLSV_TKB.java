@@ -5,6 +5,14 @@
  */
 package pkg18424049_bt2;
 
+import dao.NguoiDungDAO;
+import dao.SinhVienTKBDAO;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pojo.NguoiDung;
+import pojo.SinhVienTkb;
+
 /**
  *
  * @author hoaip
@@ -14,9 +22,17 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
     /**
      * Creates new form frm_QLSV
      */
+    DefaultTableModel modelSt;
+
     public frm_QLSV_TKB(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
+        // danh sách sinh vien
+        //init danh sách sinh viên
+        String[] columns = {"Mã Sinh Viên", "Họ Tên", "Giới Tính", "Lớp", "CMND"};
+        modelSt = new DefaultTableModel(null, columns);
+        tbStudents.setModel(modelSt);
     }
 
     /**
@@ -30,11 +46,6 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tbStudents = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        btnRefresh1 = new javax.swing.JButton();
-        btnUpdate1 = new javax.swing.JButton();
-        btnAdd1 = new javax.swing.JButton();
-        btnAddCourse = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -43,65 +54,14 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         cbCourse = new javax.swing.JComboBox<>();
         cbClass = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        btnRefresh1 = new javax.swing.JButton();
+        btnUpdate1 = new javax.swing.JButton();
+        btnAddCourse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jScrollPane1.setViewportView(tbStudents);
-
-        btnRefresh1.setText("Cập nhật danh sách");
-        btnRefresh1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefresh1ActionPerformed(evt);
-            }
-        });
-
-        btnUpdate1.setText("Xóa sinh viên khỏi khóa học");
-        btnUpdate1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdate1ActionPerformed(evt);
-            }
-        });
-
-        btnAdd1.setText("Thêm sinh viên");
-        btnAdd1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdd1ActionPerformed(evt);
-            }
-        });
-
-        btnAddCourse.setText("Thêm sinh viên vào khóa học");
-        btnAddCourse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddCourseActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(btnRefresh1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAdd1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAddCourse)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnUpdate1)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRefresh1)
-                    .addComponent(btnUpdate1)
-                    .addComponent(btnAdd1)
-                    .addComponent(btnAddCourse))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -114,7 +74,7 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 751, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,28 +92,76 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
 
         jLabel2.setText("Môn học");
 
-        cbCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Không chọn", "CTT01 - Lập trình Ứng Dụng Java", "CTT02 - Mạng máy tính" }));
+        cbCourse.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CTT01 - Lập trình Ứng Dụng Java", "CTT02 - Mạng máy tính" }));
 
         cbClass.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "18HCB", "17HCB", "16HCB" }));
+
+        btnRefresh1.setText("Cập nhật danh sách");
+        btnRefresh1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefresh1ActionPerformed(evt);
+            }
+        });
+
+        btnUpdate1.setText("Xóa sinh viên khỏi khóa học");
+        btnUpdate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdate1ActionPerformed(evt);
+            }
+        });
+
+        btnAddCourse.setText("Thêm sinh viên vào khóa học");
+        btnAddCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCourseActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRefresh1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAddCourse)
+                .addGap(18, 18, 18)
+                .addComponent(btnUpdate1)
+                .addGap(2, 2, 2))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRefresh1)
+                    .addComponent(btnUpdate1)
+                    .addComponent(btnAddCourse))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(42, 42, 42)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbClass, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSearch)
-                .addGap(27, 27, 27))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbClass, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSearch))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,26 +169,25 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cbClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(cbCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSearch)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cbCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -190,10 +197,8 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -205,57 +210,44 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRefresh1ActionPerformed
 
     private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
-        // TODO add your handling code here:
-        ArrayList dssv = StudentBUS.getAllStudents_Courses();
-        int index = tbStudents.getSelectedRow();
-
-        if (index >= 0 && index < dssv.size()) {
-            TableModel model = tbStudents.getModel();
-            String mssv = model.getValueAt(index, 0).toString();
-            String hoten = model.getValueAt(index, 1).toString();
-            String khoahoc = cbCourse.getSelectedItem().toString().split("-")[0].trim();
-            String stClass = cbClass.getSelectedItem().toString();
-            Object[] options = {"Yes", "No"};
-            int flag = JOptionPane.showOptionDialog(null, "Bạn có chắc chắn muốn xóa sinh viên \n" + mssv + " - " + hoten + " ?", "Thông báo",
-                JOptionPane.WARNING_MESSAGE, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
-
-            if (flag == 0) {
-                boolean kq;
-                try {
-                    kq = StudentBUS.removeStudent_Courses(khoahoc,mssv,stClass );
-
-                    if (kq == true) {
-                        JOptionPane.showMessageDialog(null, "Đã xóa sinh viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (FileNotFoundException ex) {
-
-                }
-            } else {
-                return;
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Chưa chọn sinh viên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+//        // TODO add your handling code here:
+//        ArrayList dssv = StudentBUS.getAllStudents_Courses();
+//        int index = tbStudents.getSelectedRow();
+//
+//        if (index >= 0 && index < dssv.size()) {
+//            TableModel model = tbStudents.getModel();
+//            String mssv = model.getValueAt(index, 0).toString();
+//            String hoten = model.getValueAt(index, 1).toString();
+//            String khoahoc = cbCourse.getSelectedItem().toString().split("-")[0].trim();
+//            String stClass = cbClass.getSelectedItem().toString();
+//            Object[] options = {"Yes", "No"};
+//            int flag = JOptionPane.showOptionDialog(null, "Bạn có chắc chắn muốn xóa sinh viên \n" + mssv + " - " + hoten + " ?", "Thông báo",
+//                    JOptionPane.WARNING_MESSAGE, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+//
+//            if (flag == 0) {
+//                boolean kq;
+//                try {
+//                    kq = StudentBUS.removeStudent_Courses(khoahoc, mssv, stClass);
+//
+//                    if (kq == true) {
+//                        JOptionPane.showMessageDialog(null, "Đã xóa sinh viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+//                    }
+//                } catch (FileNotFoundException ex) {
+//
+//                }
+//            } else {
+//                return;
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Chưa chọn sinh viên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
     }//GEN-LAST:event_btnUpdate1ActionPerformed
-
-    private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
-        // TODO add your handling code here:
-        frmAddStudent frm = new frmAddStudent(null, true);
-        frm.setTitle("Thêm Sinh Viên");
-        frm.setLocationRelativeTo(null);
-        frm.setVisible(true);
-    }//GEN-LAST:event_btnAdd1ActionPerformed
 
     private void btnAddCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCourseActionPerformed
         // TODO add your handling code here:
         String coures = cbCourse.getSelectedItem().toString();
-        if (coures.equals("Không chọn")) {
-            JOptionPane.showMessageDialog(null, "Chưa chọn khóa học", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        frmAddCourse frm = new frmAddCourse(null, true);
+        frm_them_sv_mh frm = new frm_them_sv_mh(null, true);
         frm.setTitle("Thêm Sinh Viên");
         frm.setLocationRelativeTo(null);
         frm.setVisible(true);
@@ -264,22 +256,21 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         modelSt.getDataVector().removeAllElements();
         String stClass = cbClass.getSelectedItem().toString();
-        String coures = cbCourse.getSelectedItem().toString();
-        ArrayList<StudentDto> students = new ArrayList<StudentDto>();
-        if (coures.equals("Không chọn")) {
-            students = StudentBUS.getAllStudentByClass(stClass);
-        } else {
-            String temp = coures.split("-")[0].trim();
-            students = StudentBUS.getAllStudentByClassAndCourse(stClass, temp);
-        }
+        String coures = cbCourse.getSelectedItem().toString().split("-")[0].trim();  
+        List<NguoiDung> students = new SinhVienTKBDAO().getSVTkb(stClass, coures);
         if (students == null || students.size() == 0) {
-            String[] columns = {"Mã Sinh Viên", "Họ Tên", "Giới Tính", "Lớp"};
+            String[] columns = {"Mã Sinh Viên", "Họ Tên", "Giới Tính", "Lớp", "CMND"};
             modelSt = new DefaultTableModel(null, columns);
             tbStudents.setModel(modelSt);
             return;
         }
         for (int i = 0; i < students.size(); i++) {
-            modelSt.insertRow(i, new Object[]{students.get(i).getCode(), students.get(i).getName(), students.get(i).getGender(), students.get(i).getStClass()});
+            modelSt.insertRow(i, new Object[]{
+                students.get(i).getMaNguoiDung(),
+                students.get(i).getHoTen(),
+                students.get(i).getGioiTinh(),
+                students.get(i).getMaLop(),
+                students.get(i).getCmnd()});
         }
         tbStudents.setModel(modelSt);
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -328,7 +319,6 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd1;
     private javax.swing.JButton btnAddCourse;
     private javax.swing.JButton btnRefresh1;
     private javax.swing.JButton btnSearch;

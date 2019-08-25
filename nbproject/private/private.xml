@@ -3,12 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/pkg18424049_bt2/frm_doi_mat_khau.java</file>
-            <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/util/Helper.java</file>
+            <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/dao/SinhVienTKBDAO.java</file>
+            <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/pkg18424049_bt2/frm_QLSV_TKB.java</file>
+            <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/pkg18424049_bt2/frm_QLSV.java</file>
             <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/pkg18424049_bt2/Main.java</file>
             <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/util/HibernateUtil.java</file>
+            <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/pkg18424049_bt2/frm_them_sv.java</file>
+            <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/dao/ThoiKhoaBieuDAO.java</file>
             <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/dao/NguoiDungDAO.java</file>
             <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/pkg18424049_bt2/frm_dang_nhap.java</file>
+            <file>file:/C:/Users/hoaip/Desktop/bai%20tap%202/18424049_bt2/src/pkg18424049_bt2/frm_import_tkb.java</file>
         </group>
     </open-files>
 </project-private>
