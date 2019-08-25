@@ -105,4 +105,28 @@ public class NguoiDungDAO {
         }
         return user;
     }
+
+    public String deleteUser(String maNguoiDung) {
+        String msg = "Thất bại!";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        NguoiDung sv = new NguoiDungDAO().getByCode(maNguoiDung);
+        if (sv == null) {
+            return "Sinh vien khong ton tai!";
+        }
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(sv);
+            transaction.commit();
+            msg = "Xóa thành công";
+        } catch (HibernateException ex) {
+            //Log the exception
+            transaction.rollback();
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        return msg;
+
+    }
 }

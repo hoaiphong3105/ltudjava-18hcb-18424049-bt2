@@ -62,5 +62,27 @@ public class ThoiKhoaBieuDAO {
         }
         return tkbs;
     }
+    
+    public List<ThoiKhoaBieu> getByClass(String maLop) {
+        List<ThoiKhoaBieu> tkbs = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            String hql = "select sv from ThoiKhoaBieu sv where sv.maLop = :maLop";
+            Query query = session.createQuery(hql)
+                    .setParameter("maLop", maLop);
+            tkbs = query.list();
+
+        } catch (HibernateException ex) {
+            System.err.println(ex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        if (tkbs == null || tkbs.isEmpty()) {
+            return null;
+        }
+        return tkbs;
+    }
 
 }

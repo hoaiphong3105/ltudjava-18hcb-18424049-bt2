@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pojo.NguoiDung;
-import pojo.SinhVienTkb;
 
 /**
  *
@@ -56,11 +55,15 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
         cbClass = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         btnRefresh1 = new javax.swing.JButton();
-        btnUpdate1 = new javax.swing.JButton();
         btnAddCourse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        tbStudents.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbStudentsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbStudents);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -103,13 +106,6 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
             }
         });
 
-        btnUpdate1.setText("Xóa sinh viên khỏi khóa học");
-        btnUpdate1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdate1ActionPerformed(evt);
-            }
-        });
-
         btnAddCourse.setText("Thêm sinh viên vào khóa học");
         btnAddCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,10 +121,7 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnRefresh1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAddCourse)
-                .addGap(18, 18, 18)
-                .addComponent(btnUpdate1)
-                .addGap(2, 2, 2))
+                .addComponent(btnAddCourse))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +129,6 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
                 .addGap(0, 0, 0)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRefresh1)
-                    .addComponent(btnUpdate1)
                     .addComponent(btnAddCourse))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -209,41 +201,6 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
         btnSearchActionPerformed(evt);
     }//GEN-LAST:event_btnRefresh1ActionPerformed
 
-    private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
-//        // TODO add your handling code here:
-//        ArrayList dssv = StudentBUS.getAllStudents_Courses();
-//        int index = tbStudents.getSelectedRow();
-//
-//        if (index >= 0 && index < dssv.size()) {
-//            TableModel model = tbStudents.getModel();
-//            String mssv = model.getValueAt(index, 0).toString();
-//            String hoten = model.getValueAt(index, 1).toString();
-//            String khoahoc = cbCourse.getSelectedItem().toString().split("-")[0].trim();
-//            String stClass = cbClass.getSelectedItem().toString();
-//            Object[] options = {"Yes", "No"};
-//            int flag = JOptionPane.showOptionDialog(null, "Bạn có chắc chắn muốn xóa sinh viên \n" + mssv + " - " + hoten + " ?", "Thông báo",
-//                    JOptionPane.WARNING_MESSAGE, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
-//
-//            if (flag == 0) {
-//                boolean kq;
-//                try {
-//                    kq = StudentBUS.removeStudent_Courses(khoahoc, mssv, stClass);
-//
-//                    if (kq == true) {
-//                        JOptionPane.showMessageDialog(null, "Đã xóa sinh viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-//                    }
-//                } catch (FileNotFoundException ex) {
-//
-//                }
-//            } else {
-//                return;
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(null, "Chưa chọn sinh viên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
-    }//GEN-LAST:event_btnUpdate1ActionPerformed
-
     private void btnAddCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCourseActionPerformed
         // TODO add your handling code here:
         String coures = cbCourse.getSelectedItem().toString();
@@ -256,7 +213,7 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         modelSt.getDataVector().removeAllElements();
         String stClass = cbClass.getSelectedItem().toString();
-        String coures = cbCourse.getSelectedItem().toString().split("-")[0].trim();  
+        String coures = cbCourse.getSelectedItem().toString().split("-")[0].trim();
         List<NguoiDung> students = new SinhVienTKBDAO().getSVTkb(stClass, coures);
         if (students == null || students.size() == 0) {
             String[] columns = {"Mã Sinh Viên", "Họ Tên", "Giới Tính", "Lớp", "CMND"};
@@ -274,6 +231,20 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
         }
         tbStudents.setModel(modelSt);
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void tbStudentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbStudentsMouseClicked
+        // TODO add your handling code here:
+        int row = tbStudents.getSelectedRow();
+        String maNguoiDung = (String) tbStudents.getValueAt(row, 0);
+        Object[] options = {"Yes", "No"};
+        int flag = JOptionPane.showOptionDialog(null, "Bạn có chắc chắn muốn xóa sinh viên?", "Thông báo",
+                JOptionPane.WARNING_MESSAGE, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        if (flag == 0) {
+            String msg = new NguoiDungDAO().deleteUser(maNguoiDung);
+            JOptionPane.showMessageDialog(null, msg, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            btnSearchActionPerformed(null);
+        }
+    }//GEN-LAST:event_tbStudentsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -322,7 +293,6 @@ public class frm_QLSV_TKB extends javax.swing.JDialog {
     private javax.swing.JButton btnAddCourse;
     private javax.swing.JButton btnRefresh1;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JButton btnUpdate1;
     private javax.swing.JComboBox<String> cbClass;
     private javax.swing.JComboBox<String> cbCourse;
     private javax.swing.JLabel jLabel1;
