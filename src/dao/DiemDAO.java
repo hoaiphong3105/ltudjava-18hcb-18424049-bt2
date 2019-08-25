@@ -5,7 +5,9 @@
  */
 package dao;
 
+import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pojo.Diem;
@@ -41,5 +43,70 @@ public class DiemDAO {
             session.close();
         }
         return msg;
+    }
+
+    public Diem getByCode(int id) {
+        List<Diem> user = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            String hql = "select sv from Diem sv where sv.id =:id";
+            Query query = session.createQuery(hql)
+                    .setParameter("id", id);
+            user = query.list();
+
+        } catch (HibernateException ex) {
+            System.err.println(ex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        if (user == null || user.isEmpty()) {
+            return null;
+        }
+        return user.get(0);
+    }
+
+    public String UpdateById(Diem d) {
+        String msg = "";
+        NguoiDung sv = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            if ((sv = new NguoiDungDAO().getByCode(d.getMaSinhVien())) == null) {
+                return "Sinh viên không tồn tại";
+            }
+            session.update(d);
+            transaction.commit();
+            msg = "Thành công!";
+        } catch (HibernateException ex) {
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        return msg;
+    }
+
+    public List<Diem> getbyCourseAndClass(String maLop, String mamh) {
+        List<Diem> user = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            String hql = "SELect sv "
+                    + "FROM Diem as sv "
+                    + "where sv.maLopTkb =:malop and sv.maMh =:mamh";
+            Query query = session.createQuery(hql)
+                    .setParameter("malop", maLop)
+                    .setParameter("mamh", mamh);
+            user = query.list();
+
+        } catch (HibernateException ex) {
+            System.err.println(ex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        return user;
     }
 }

@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pojo.NguoiDung;
+import util.Helper;
 import util.HibernateUtil;
 
 /**
@@ -127,6 +128,10 @@ public class NguoiDungDAO {
             session.close();
         }
         return msg;
-
+    }
+    
+    public void Logout()
+    {
+        Helper.setCurrentUser(null);
     }
 }

@@ -17,8 +17,13 @@ public class Helper {
     private static NguoiDung CurUser;
 
     public static void setCurrentUser(NguoiDung user) {
-        isLogin = true;
-        CurUser = user;
+        if (user == null) {
+            isLogin = false;
+            CurUser = null;
+        } else {
+            isLogin = true;
+            CurUser = user;
+        }
     }
 
     public static NguoiDung getCurrentUser() {
