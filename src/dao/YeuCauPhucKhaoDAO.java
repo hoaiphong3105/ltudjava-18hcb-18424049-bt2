@@ -40,7 +40,7 @@ public class YeuCauPhucKhaoDAO {
         }
         return msg;
     }
-    
+
     public List<YeuCauPhucKhao> getAll() {
         List<YeuCauPhucKhao> user = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -60,5 +60,44 @@ public class YeuCauPhucKhaoDAO {
             return null;
         }
         return user;
+    }
+
+    public YeuCauPhucKhao getById(int id) {
+        List<YeuCauPhucKhao> user = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            String hql = "select sv from YeuCauPhucKhao sv where sv.id = :id";
+            Query query = session.createQuery(hql)
+                    .setParameter("id", id);
+            user = query.list();
+
+        } catch (HibernateException ex) {
+            System.err.println(ex);
+        } catch (Exception ex) {
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        if (user == null || user.isEmpty()) {
+            return null;
+        }
+        return user.get(0);
+    }
+
+    public String UpdateStatus(YeuCauPhucKhao pk) {
+        String msg = "";
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();;
+            session.update(pk);
+            transaction.commit();
+            msg = "Thành công!";
+        } catch (HibernateException ex) {
+            System.err.println(ex);
+        } finally {
+            session.close();
+        }
+        return msg;
     }
 }
