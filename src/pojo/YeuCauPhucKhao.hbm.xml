@@ -9,16 +9,16 @@
             <generator class="assigned" />
         </id>
         <property name="maSinhVien" type="string">
-            <column name="ma_sinh_vien" length="45" not-null="true" />
+            <column name="ma_sinh_vien" length="45"  />
         </property>
         <property name="maMonHoc" type="string">
-            <column name="ma_mon_hoc" length="45" not-null="true" />
+            <column name="ma_mon_hoc" length="45"  />
         </property>
         <property name="hoTen" type="string">
             <column name="ho_ten" length="100" />
         </property>
         <property name="cotDiemPk" type="string">
-            <column name="cot_diem_pk" length="45" not-null="true" />
+            <column name="cot_diem_pk" length="45" />
         </property>
         <property name="diemMongMuon" type="java.lang.Integer">
             <column name="diem_mong_muon" />
